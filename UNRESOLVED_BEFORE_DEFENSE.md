@@ -53,7 +53,7 @@ for reduced-order modelling.
   motions and leading-edge vortices*. §1.4 *Reduced-order modeling* already
   discusses POD, DMD and Dawson & Brunton's SINDy work, so it is the natural
   home.
-- This applies to both `texFiles/writeup.tex` and the ghostwritten copies. The
+- This applies to both `texFiles/writeup.tex` and the writeup copies. The
   reader copy is generated with `scripts/make_reader_copy.py`.
 
 ---
@@ -113,10 +113,10 @@ edit to an `.md` also needs the matching string updated there, or send it to me.
 ## Carried over from the report work
 
 - `texFiles/writeup.tex` (your original report) still has the old flat-plate
-  benchmark figure and its `\todo`. Only the ghostwritten copies have the new
+  benchmark figure and its `\todo`. Only the writeup copies have the new
   overlay with peak values.
 - Everything else missing from the report is listed in the **Gap register**
-  at the end of `ghostwritten/predefense_author.pdf`.
+  at the end of `writeup/predefense_author.pdf`.
 
 ---
 
@@ -127,5 +127,5 @@ conda run -n talkbuild python scripts/build_slides.py      # the deck
 conda run -n talkbuild python scripts/speaker_notes.py     # printed notes (A4 PDF)
 conda run -n flowkit   python scripts/make_pod_video.py    # POD video (~3 min)
 conda run -n flowkit   python scripts/make_wake_videos.py  # α = 14°, 26° wake videos (~4 min)
-bash ghostwritten/build.sh                                 # author + reader reports
+bash writeup/build.sh                                 # author + reader reports
 ```

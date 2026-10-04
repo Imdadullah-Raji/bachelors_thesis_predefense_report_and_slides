@@ -21,4 +21,4 @@ Links to my github repos:
 
 ## Resources
 - the markdowns in this directory
-- The reports in the `/home/raji/Research/Thesis/reports/predefense/ghostwritten/`
+- The reports in the `/home/raji/Research/Thesis/reports/predefense/writeup/`

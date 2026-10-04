@@ -5,7 +5,7 @@ This workspace is split in two:
 | Kind | What | Where |
 |------|------|-------|
 | **Code** | `.md`, `.py`, `.sh`, `.tex`, `.bib`, `.yaml` (the instructions that produce everything else) | git → `github.com/Imdadullah-Raji/bachelors_thesis_predefense_report_and_slides` |
-| **Assets** | everything else: videos, images, PDFs, `.pptx`, data (`.csv/.json/.npz`), reference papers, and all of `build/` and `ghostwritten/build/` | rclone → `gdrive-altair:bsc_predefense_assets` |
+| **Assets** | everything else: videos, images, PDFs, `.pptx`, data (`.csv/.json/.npz`), reference papers, and all of `build/` and `writeup/build/` | rclone → `gdrive-altair:bsc_predefense_assets` |
 
 The single source of truth is `.gitignore`: **an asset is any file git ignores**.
 `archive/never_upload.txt` (grep -E patterns) lists the junk that goes nowhere (`__pycache__`, LibreOffice lock files).

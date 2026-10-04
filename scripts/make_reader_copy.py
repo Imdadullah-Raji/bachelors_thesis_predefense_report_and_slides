@@ -1,4 +1,4 @@
-"""Generate ghostwritten/reader/*.tex from ghostwritten/author/*.tex.
+"""Generate writeup/reader/*.tex from writeup/author/*.tex.
 
 Removes every \\gap{...} note, deletes "% BEGIN AUTHOR-ONLY ... % END AUTHOR-ONLY"
 blocks, and uncomments "% BEGIN READER-ONLY ... % END READER-ONLY" blocks.
@@ -7,7 +7,7 @@ Re-run after editing the author copy; it overwrites the reader copy.
 from pathlib import Path
 import re
 
-ROOT = Path(__file__).resolve().parents[1] / "ghostwritten"
+ROOT = Path(__file__).resolve().parents[1] / "writeup"
 SRC, DST = ROOT / "author", ROOT / "reader"
 
 def strip_gaps(s):

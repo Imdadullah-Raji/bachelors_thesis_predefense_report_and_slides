@@ -24,4 +24,4 @@
 
 # 4. Build outputs are regenerable; treat them as assets even if they look like code.
 build/
-ghostwritten/build/
+writeup/build/
