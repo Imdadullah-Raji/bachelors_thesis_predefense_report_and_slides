@@ -42,38 +42,52 @@ The predefense covers the literature review, the simulation methodology, and the
 
 ### Where things are
 
-| Path | What |
-|---|---|
-| `markdowns/` | My own notes: literature review, objectives, methodology. Everything else was built from these. |
-| `texFiles/`, `build.sh` | LaTeX source of the report → `predefense.pdf` |
-| `writeup/` | Two versions of the report: an *author* copy with red boxes marking missing evidence, and a clean *reader* copy |
-| `slides_mds/` | My slide-by-slide spec and style rules for the talk |
-| `scripts/build_slides.py`, `scripts/speaker_notes.py` | Generate `slides/predefense.pptx` and `slides/speaker_notes.pdf` |
-| `scripts/`, `static_case/`, `figs/pitch_plot_digitized/` | Figure, video, mesh-rendering and word-count scripts |
-| `UNRESOLVED_BEFORE_DEFENSE.md` | Open issues and questions to expect at the defense |
-| `archive/` | Git/Drive split and the asset sync scripts |
+| Path | What | Made by |
+|---|---|---|
+| `markdowns/` | Literature review, objectives, methodology notes. Everything else was built from these. | me |
+| `slides_mds/` | Slide-by-slide spec, speaker notes and style rules for the talk | me |
+| `texFiles/`, `build.sh` | LaTeX source of the report → `predefense.pdf` | Claude |
+| `writeup/` | Author copy of the report (red boxes mark missing evidence) and a clean reader copy; `writeup/build.sh` builds both | Claude |
+| `scripts/build_slides.py` | Builds the deck → `slides/predefense.pptx`; equation images and `mesh_motion.mp4` go to `slides/media/` | Claude |
+| `scripts/speaker_notes.py` | Speaker notes → the `.pptx` notes pane and `slides/speaker_notes.pdf` | Claude (from my notes) |
+| `static_case/` | Stationary-airfoil plots: `make_figures.py` → `static_case/figures/`, extracted data in `static_case/data/`, 29° vs 30° comparison | Claude |
+| `scripts/render_mesh.py`, `scripts/make_mesh_figure.py` | Mesh pictures → `figs/mesh_*` | Claude |
+| `scripts/make_wake_videos.py` | Wake videos → `figs/wake_video/` | Claude |
+| `scripts/make_pod_video.py` | POD video → `figs/pod_video/` | Claude |
+| `figs/pitch_plot_digitized/`, `scripts/make_benchmark_overlay.py` | Digitized Eldredge & Wang plot and our benchmark overlay → `figs/benchmark_overlay.*` | Claude |
+| `assets/` | Pitching and stationary figures and videos copied in from my earlier analysis (also made with Claude) | Claude |
+| `figs/` (Gupta, Williamson, regime map), `slides/media/ref_*` | Figures and citation images from published papers | the papers' authors |
+| `reference_sources/` | The papers used to check the report's claims | the papers' authors |
+| `scripts/count_words.py` | Word count → `WORD_COUNT.txt` | Claude |
+| `predefense_with_results.pptx` | The final deck with results slides | my thesis partner, with Claude |
+| `UNRESOLVED_BEFORE_DEFENSE.md` | Open issues and questions to expect at the defense | Claude |
+| `archive/` | Git/Drive split and asset sync scripts | Claude |
+
+**Not in this repo or on Drive yet:** the simulation case files and the raw data. That covers the OpenFOAM cases and meshes (`~/Research/Thesis/static_airfoil/`), the extra-angle runs (`~/Research/Thesis/downloads/Re500/`), the flow snapshots behind the POD and wake videos (`~/ddse/pod_recon/`), and my older figure folder (`~/Research/Notes/airfoil_research/Figures/`). The figure scripts read from these local paths, so they won't run elsewhere yet. I will upload these soon and link them here.
 
 ---
 
 ## 2. How all of this was made (honestly)
 
-**I did not write the LaTeX or the PowerPoint code by hand.** I don't know how to use python-pptx, and I didn't need to. Here is what actually happened.
+**I designed and planned the work and wrote the content. Claude did nearly all the hands-on building:** every figure, plot and video, the LaTeX, and the slide code. I don't know how to use python-pptx, and I didn't need to.
 
 **What I did:**
-- Ran the simulations: OpenFOAM cases and my post-processing in [openfoam_cases](https://github.com/Imdadullah-Raji/openfoam_cases) and [flowkit](https://github.com/Imdadullah-Raji/flowkit). These repos are separate from this one.
-- Wrote the content as plain markdown in `markdowns/`: the literature review, objectives, and methodology (`methodology_writeup.md` is my original).
-- Wrote the slides as markdown in `slides_mds/`: what goes on each slide, which figure or video, my speaker notes, plus `slides_styles.md` with layout rules (high contrast for a bad projector, a 7-minute talk, references at the bottom of each slide, page numbers).
-- Reviewed every output, sent back corrections, and decided what stayed in.
+- **Designed and planned the simulations:** the cases, the angle sweep, the pitching maneuver, and the mesh and solver choices (see the methodology). My other repos are [openfoam_cases](https://github.com/Imdadullah-Raji/openfoam_cases) and [flowkit](https://github.com/Imdadullah-Raji/flowkit).
+- **Wrote the content** in `markdowns/`: the literature review, objectives and methodology. `methodology_writeup.md` is my original.
+- **Wrote the talk** in `slides_mds/`: what goes on each slide, which figure or video, and my speaker notes. `slides_styles.md` has the layout rules: high contrast for a bad projector, a 7-minute talk, references at the bottom of each slide, page numbers.
+- **Reviewed every output,** sent back corrections, and decided what stayed in.
+
+**What I did not do:** I did not make any of the figures, plots or videos. I did not write the LaTeX, the slide-building code or any of the scripts in this repo.
 
 **What Claude (Opus 5.5, in Claude Code) did:**
-- **Report:** turned my markdowns and figures into the LaTeX in `texFiles/`, wrote `build.sh`, checked my claims against the papers in `reference_sources/`, and fixed equations. It noted every correction in `markdowns/SOURCE_NOTES.md` and flagged missing results instead of inventing them. It also made the author/reader versions in `writeup/`.
-- **Slides:** wrote `scripts/build_slides.py` (~700 lines of python-pptx). The script reads my `slides_mds/`, renders the equations with LaTeX, numbers the references, embeds the videos, and writes the `.pptx`. Speaker notes come from `scripts/speaker_notes.py`. Notes Claude drafted where mine were missing are marked `[drafted]`.
-- **Figures and videos:** the scripts that render the mesh, make the wake and POD videos, digitize a published plot for the benchmark overlay, and count words.
-- **Bookkeeping:** `UNRESOLVED_BEFORE_DEFENSE.md`, and the git/Drive archive setup in `archive/`.
+- **Figures, plots and videos:** all of them. Each output and its script is listed in the table above.
+- **Report:** turned my markdowns and the figures into the LaTeX in `texFiles/`, and checked claims against the papers in `reference_sources/`. It fixed equations and logged every correction in `markdowns/SOURCE_NOTES.md`. It flagged missing results instead of inventing them, and made the author/reader copies in `writeup/`.
+- **Slides:** wrote `scripts/build_slides.py` (~700 lines of python-pptx). The script reads my `slides_mds/`, renders the equations with LaTeX, numbers the references, embeds the videos, and writes the `.pptx`. Notes Claude drafted where mine were missing are marked `[drafted]`.
+- **Bookkeeping:** `UNRESOLVED_BEFORE_DEFENSE.md`, and the git/Drive archive in `archive/`.
 
-**What my thesis partner did:** Abdullah Al Mamun added the results slides that make up `predefense_with_results.pptx`, also working with a Claude agent. The scripts for that part aren't in this repo yet.
+**What my thesis partner did:** Abdullah Al Mamun added the results slides in `predefense_with_results.pptx`, also working with a Claude agent. Those scripts aren't in this repo yet.
 
-So the work splits like this: **the physics, the data, the content and the judgement calls are mine. The typesetting, the slide engineering and most of the plotting code are Claude's.**
+So the work splits like this: **the research design, the content and the judgement calls are mine. The figures, the typesetting and all the code are Claude's.**
 
 ### Workflow, if you want to do the same
 
