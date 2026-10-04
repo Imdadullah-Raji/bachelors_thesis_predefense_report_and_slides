@@ -36,7 +36,7 @@ The predefense covers the literature review, the simulation methodology, and the
 
 <img src="docs/readme/pod.png" width="720" alt="Four-mode POD reconstruction of the wake">
 
-**The talk** has ~13 generated slides plus results slides. Here is one of them:
+**The talk** has ~13 generated slides, plus results slides added by my thesis partner (`predefense_with_results.pptx`). Here is one of the generated slides:
 
 <img src="docs/readme/slide_example.png" width="720" alt="Example slide: pitching airfoil and the leading-edge vortex">
 
@@ -70,6 +70,8 @@ The predefense covers the literature review, the simulation methodology, and the
 - **Slides:** wrote `scripts/build_slides.py` (~700 lines of python-pptx). The script reads my `slides_mds/`, renders the equations with LaTeX, numbers the references, embeds the videos, and writes the `.pptx`. Speaker notes come from `scripts/speaker_notes.py`. Notes Claude drafted where mine were missing are marked `[drafted]`.
 - **Figures and videos:** the scripts that render the mesh, make the wake and POD videos, digitize a published plot for the benchmark overlay, and count words.
 - **Bookkeeping:** `UNRESOLVED_BEFORE_DEFENSE.md`, and the git/Drive archive setup in `archive/`.
+
+**What my thesis partner did:** Abdullah Al Mamun added the results slides that make up `predefense_with_results.pptx`, also working with a Claude agent. The scripts for that part aren't in this repo yet.
 
 So the work splits like this: **the physics, the data, the content and the judgement calls are mine. The typesetting, the slide engineering and most of the plotting code are Claude's.**
 
