@@ -19,6 +19,8 @@
 !*.yaml
 !*.yml
 !archive/*.txt
+# Small preview images shown in README.md (downscaled copies of assets).
+!docs/readme/*
 
 # 4. Build outputs are regenerable; treat them as assets even if they look like code.
 build/
