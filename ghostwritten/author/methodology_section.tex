@@ -1,0 +1,126 @@
+\section{Methodology}
+Two kinds of numerical investigations were undertaken: a stationary airfoil at different angles of attack, and a pitching airfoil following a prescribed rotational motion $\alpha(t)$. Both kinds of simulation were set up in the finite-volume code OpenFOAM, Foundation development version \cite{weller}.
+\gap{The exact OpenFOAM build is not stated. The stationary runs used build \texttt{dev-84333c37c7aa}; the $45^\circ$ step run used \texttt{dev-e4f852e7fd6a}. An earlier draft named OpenFOAM v13.}
+
+\subsection{Static NACA0012 Airfoil}
+\subsubsection{Mesh}
+For both the stationary and pitching NACA0012 airfoils, the computational domain is a disk of radius $30c$. The mesh is discretized using transfinite interpolation, with quadrilateral elements throughout the two-dimensional plane. An overview and close-up are provided in Figure~\ref{fig:mesh}.
+
+\fig{figs/mesh_figure.pdf}{0.95}{Computational mesh: the circular domain and near-field refinement, with close-ups of the leading edge and trailing edge.}{fig:mesh}
+
+To keep the boundary layer sufficiently resolved, the first-cell height is taken as a function of the Reynolds number,
+\begin{equation}
+\frac{h_1}{c}=\frac{0.05}{\sqrt{Re}},
+\end{equation}
+which is approximately one hundredth of the Blasius boundary-layer thickness for a flat plate at $x=c$. This flat-plate thickness serves as the mesh-design scale. The mesh quantities are summarized in Table~\ref{tab:mesh}.
+\gap{The thickness of the separated boundary layer on the airfoil has not been measured; the cell counts in Table~\ref{tab:mesh} are against the Blasius estimate.}
+\gap{Mesh, time-step and domain-size independence have not been demonstrated at $Re=500$ on this mesh. The only mesh study is from the earlier $Re=1000$, $\alpha=10^\circ$ campaign.}
+
+\begin{table}[htbp]\centering\small
+\caption{Mesh quantities for the $Re=500$ NACA0012 airfoil.}\label{tab:mesh}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{.57\linewidth}X@{}}
+\toprule Quantity & Value \\
+\midrule
+Total cells & 63\,360 \\
+Cells on each surface / across the trailing-edge base / radial & 160 / 32 / 180 \\
+First-cell height & $2.24\times10^{-3}c$ \\
+Radial growth ratio & 1.035 \\
+Cells inside the estimated boundary layer ($\delta_{99}=0.224c$ at $x=c$) & 44--49 per wall-normal line \\
+Maximum non-orthogonality / skewness / aspect ratio & $64^\circ$ / 0.82 / 7.5 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+For the stationary cases, the angle of attack $\alpha$ is changed by rotating the freestream direction. For pitching cases, the whole mesh is rotated rigidly around a pivot.
+
+\subsubsection{Solver Setup}
+As the flow regime is laminar, the shear layer near the no-slip wall is an important small scale to resolve. The governing equations were solved directly, without a turbulence model. The solver settings are given in Table~\ref{tab:static_solver}.
+
+\begin{table}[htbp]\centering\small
+\caption{Solver setup for the time-accurate stationary-airfoil simulations.}\label{tab:static_solver}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{.28\linewidth}X@{}}
+\toprule Item & Setting \\
+\midrule
+Pressure--velocity coupling & PISO (PIMPLE, one outer corrector), two pressure correctors, one non-orthogonal corrector \\
+Time derivative & Second-order implicit backward \\
+Convection & Second-order linear upwind \\
+Gradient, Laplacian & Second-order central (Gauss linear, non-orthogonal correction) \\
+Linear solvers & $p$: GAMG, tolerance $10^{-8}$ on the final corrector; $\mathbf{U}$: symmetric Gauss--Seidel, tolerance $10^{-9}$ \\
+Boundary conditions & Airfoil: no-slip; far field: freestream velocity and pressure; span: two-dimensional (\texttt{empty}) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Time Stepping}
+The time step is fixed within each run stage, with adaptive time stepping disabled. Each run has three phases:
+\begin{enumerate}
+\item \textbf{Start-up.} An impulsive start at $\Delta t=4\times10^{-5}$ up to $t=0.5$.
+\item \textbf{Transient.} The step is chosen from the Courant number measured at the end of start-up and bounded by an absolute upper limit on $\Delta t$. The run advances until the lift history reaches a limit cycle: over two consecutive windows, its mean, amplitude, and frequency must agree to 1\%.
+\item \textbf{Snapshot record.} Twenty limit-cycle periods, with 32 snapshots per shedding period.
+\end{enumerate}
+Production time steps were $\Delta t=4.3$--$6.3\times10^{-4}$, and the maximum Courant number stayed below 0.8. Time and time step are nondimensionalized by $c/U_\infty$.
+\gap{The absolute cap of $6\times10^{-4}$ was introduced after the $26^\circ$ case had already run at $6.33\times10^{-4}$. Snapshot records span 19--31 periods in the author's runs ($16^\circ$ and $18^\circ$ hold 19); record lengths of the collaborator's odd-angle cases are unverified.}
+
+\FloatBarrier
+\subsection{Pitching NACA0012}
+\subsubsection{Airfoil Motion Using the Arbitrary Lagrangian--Eulerian Formulation}
+The same mesh topology as the static case is reused for the pitching airfoil. The circular symmetry of the O-grid is exploited to implement pitching motion. The entire mesh rotates relative to the flow, and time derivatives in the moving mesh are related to those in the stationary coordinate frame through the arbitrary Lagrangian--Eulerian (ALE) transformation:
+\begin{align}
+\left.\frac{\partial\phi}{\partial t}\right|_{\boldsymbol\xi}
+&=\left.\frac{\partial\phi}{\partial t}\right|_{\mathbf{x}}
++\sum_i\frac{\partial\phi}{\partial x_i}
+\left.\frac{\partial x_i}{\partial t}\right|_{\boldsymbol\xi}\\
+&=\left.\frac{\partial\phi}{\partial t}\right|_{\mathbf{x}}
++\mathbf{u}_m\cdot\nabla\phi.
+\end{align}
+Here $\mathbf{u}_m$ is the mesh velocity. For rigid-body rotation, it is given by
+\begin{equation}
+\mathbf{u}_m=\boldsymbol\Omega\times\mathbf{r},
+\end{equation}
+where $\mathbf{r}$ is measured from the pivot. For the two-dimensional case,
+\begin{equation}
+\boldsymbol\Omega(t)=\dot\alpha(t)\,\hat{\mathbf{k}},
+\end{equation}
+where $\alpha(t)$ is the prescribed rotational displacement, with its sign defined consistently with mesh rotation. This transformation changes the material derivative $D\mathbf{u}/Dt$ and hence the Navier--Stokes momentum equation as follows:
+\begin{equation}
+\left.\frac{\partial\mathbf{u}}{\partial t}\right|_{\boldsymbol\xi}
++[(\mathbf{u}-\mathbf{u}_m)\cdot\nabla]\mathbf{u}
+=-\nabla p_k+\nu\nabla^2\mathbf{u},
+\qquad \nabla\cdot\mathbf{u}=0,
+\end{equation}
+where $p_k=p/\rho$ is kinematic pressure and $\nu$ is kinematic viscosity.
+
+\subsubsection{Solver Setup}
+In the prescribed-step setup, each unsteady simulation is started from a converged steady-flow solution at $\alpha=0$, obtained using the steady-state SIMPLE algorithm. The transient PIMPLE algorithm is then used to calculate the time-evolving pressure and velocity fields. The settings are listed in Table~\ref{tab:pitch_solver}.
+\gap{The prescribed-step runs are at $Re=1000$ on the mesh sized for $Re=500$, so the first cell is $\sqrt2$ coarser than the $h_1$ rule requires (36--42 cells inside $\delta_{99}=0.158c$). In the $9.74^\circ$ case a misspelt \texttt{reltol} left the final-corrector relative tolerance at 0.1, so the tolerances in Table~\ref{tab:pitch_solver} hold only for the $45^\circ$ case.}
+\gap{The $45^\circ$ run stopped at $t=16.5$ of a planned 25, and its Courant number reached 2.08 (about 6\,000 steps above 1).}
+\gap{The $Re=500$, $30^\circ$ pitching case uses different settings: one outer corrector, two pressure correctors, one non-orthogonal corrector and $\Delta t=2\times10^{-4}$, with a quarter-chord pivot. The $Re=1000$ flat-plate benchmark uses a leading-edge pivot. Neither appears in Table~\ref{tab:pitch_solver}.}
+
+\begin{table}[htbp]\centering\small
+\caption{Solver setup for the prescribed-step NACA0012 campaign.}\label{tab:pitch_solver}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{.28\linewidth}X@{}}
+\toprule Item & Setting \\
+\midrule
+Pressure--velocity coupling & PIMPLE: two outer correctors, two pressure correctors, two non-orthogonal correctors; flux corrected for mesh motion \\
+Time step & Fixed, $\Delta t=5\times10^{-4}$ \\
+Time derivative / convection / diffusion & Second-order backward / linear upwind / central (Gauss linear, non-orthogonal correction) \\
+Linear solvers & $p$: GAMG, tolerance $10^{-7}$ on the final corrector; $\mathbf{U}$: symmetric Gauss--Seidel, tolerance $10^{-6}$ \\
+Boundary conditions & Airfoil: no-slip relative to the moving wall; far field: freestream velocity and pressure; span: two-dimensional (\texttt{empty}) \\
+Output & Forces every time step; flow fields every 0.05 (every 0.0125 during the $45^\circ$ ramp) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\FloatBarrier
+\subsubsection{Input Function}
+For the pitch-up input function in the prescribed-step campaign, a continuously differentiable approximation to a step function is used:
+\begin{equation}
+\alpha(t)=\Delta\alpha\,s^3(6s^2-15s+10),
+\qquad s=\min\!\left(\max\!\left(\frac{t}{T},0\right),1\right).
+\end{equation}
+This $\alpha(t)$ has $\dot\alpha=\ddot\alpha=0$ at the beginning and end of the maneuver, which avoids the singularity associated with an instantaneous step and improves numerical regularity. Here $T$ is the ramp duration and $\Delta\alpha$ is the prescribed change in angle.
+
+The later $Re=500$ maneuver uses an Eldredge-type smoothed pitch-up-and-hold input, with nominal reduced rate $K=\dot\alpha_0c/(2U_\infty)=0.4$ and final angle $30^\circ$. Its motion table is clamped at the maximum angle for the hold. The corresponding angle, angular velocity, and angular acceleration are shown in Figure~\ref{fig:kinematics}.
+
+\fig{assets/pitch_kinematics.png}{0.58}{Angle, angular velocity, and angular acceleration for the $Re=500$ NACA0012 pitch-up-and-hold input.}{fig:kinematics}
+\FloatBarrier

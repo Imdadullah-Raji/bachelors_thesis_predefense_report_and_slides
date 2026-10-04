@@ -1,0 +1,47 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=15mm]{geometry}
+\usepackage{graphicx,amsmath,caption}
+\captionsetup{font=small,labelfont=bf}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\begin{document}
+\begin{center}\large Fixed-angle NACA0012 at $Re=500$\end{center}
+\begin{center}
+\includegraphics[width=180mm]{figures/01_force_coefficients.pdf}
+\captionof{figure}{Force coefficients versus angle of attack. Dotted curves show time averages after shedding; solid orange curves in the lift panel show instantaneous minima and maxima over the averaging windows. Circles and squares distinguish period-one and period-two states. Efficiency is $\overline{C_L/C_D}$. The gray curve contains only converged steady-solver results. Hatching denotes the observed period-doubling bracket $24^\circ<\alpha\leq25^\circ$, not a resolved critical angle.}
+\vspace{5mm}
+\includegraphics[width=137mm]{figures/02_strouhal.pdf}
+\captionof{figure}{Strouhal number based on chord and freestream speed. The shedding carrier is distinguished from the orbit fundamental: $f_0=f_c$ before period doubling and $f_0=f_c/2$ afterward. No shedding frequency is assigned to the steady physical states.}
+\end{center}
+\clearpage
+\begin{center}\large Surface distributions across three flow states\end{center}
+\begin{center}
+\includegraphics[width=180mm]{figures/04_mean_pressure.pdf}
+\captionof{figure}{Mean surface pressure coefficient before shedding ($11^\circ$), after shedding ($20^\circ$), and after period doubling ($26^\circ$). The pressure axis is inverted. Upper and lower surfaces use both different colors and different line styles. Averages for the oscillatory states span complete orbits.}
+\vspace{10mm}
+\includegraphics[width=180mm]{figures/05_mean_wall_shear.pdf}
+\captionof{figure}{Mean tangential wall shear, normalized by $\rho U_\infty^2$, for the same three states. The positive tangent points from the leading edge toward the trailing edge on each side. Negative values indicate local reversed mean wall shear. Insets enlarge the upper-surface values near zero; their horizontal coordinate is also $x/c$. The blunt trailing-edge face is omitted.}
+\end{center}
+\clearpage
+\begin{center}\large Evidence of period doubling\end{center}
+\begin{center}
+\includegraphics[width=180mm]{figures/03_fourier_period_doubling.pdf}
+\captionof{figure}{Single-sided Fourier amplitude spectra of lift at $24^\circ$, $25^\circ$, and $26^\circ$. Each mean-subtracted record spans complete orbits and uses a Hann window with coherent-gain correction. Frequency is normalized by that case's carrier. The strong $f_c/2$ component in the period-two states contrasts with the much weaker residual at $24^\circ$.}
+\vspace{10mm}
+\includegraphics[width=180mm]{figures/06_lift_delay_2d.pdf}
+\captionof{figure}{Delayed-lift phase portraits over the last four complete orbits. The delay is one quarter of the shedding-carrier period, $\tau=1/(4f_c)$, with its value shown for each case in convective time units. Period doubling produces two distinct successive loops; a projected crossing does not imply intersection of the full dynamical trajectory.}
+\end{center}
+\clearpage
+\begin{center}\large Three-dimensional delay embedding\end{center}
+\begin{center}
+\includegraphics[width=137mm]{figures/06_lift_delay_3d.pdf}
+\captionof{figure}{Three-dimensional delayed-lift trajectory at $26^\circ$, using coordinates $C_L(t)$, $C_L(t-\tau)$, and $C_L(t-2\tau)$. The same delay convention and last four complete orbits are used as in the two-dimensional portraits. This reconstruction illustrates the period-two orbit without requiring velocity-field snapshots.}
+\end{center}
+\vspace{8mm}
+\textbf{Data and plotting notes.}
+All plots use raw force and surface outputs from the local even-angle runs and the downloaded odd-angle bundle. Restart segments are merged in numerical time order, with later segments taking precedence. Time averages are weighted by elapsed time. The full averaging windows, stationarity diagnostics, and numerical plot data accompany these figures in the \texttt{data/} directory.
+
+The steady solver did not converge at $22^\circ$ or $24^\circ$; those iterates are excluded from the gray branch. The jump between $29^\circ$ and $30^\circ$ is present in the supplied records and has been retained. These plots alone do not establish its cause or identify a further bifurcation.
+
+Print at actual size (100\%). Individual vector PDFs and 600-dpi PNGs are available in \texttt{figures/} for insertion into the thesis.
+\end{document}

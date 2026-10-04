@@ -1,0 +1,60 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=24mm]{geometry}
+\usepackage{graphicx,amsmath,amssymb,booktabs,array,tabularx}
+\usepackage{microtype,caption,placeins,xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\renewcommand{\baselinestretch}{1.08}
+\captionsetup{font=small,labelfont=bf}
+\pagestyle{fancy}\fancyhf{}
+% BEGIN AUTHOR-ONLY
+\fancyhead[L]{\small Thesis predefense \textcolor{red!60!black}{(author's copy)}}
+% END AUTHOR-ONLY
+% BEGIN READER-ONLY
+% \fancyhead[L]{\small Thesis predefense}
+% END READER-ONLY
+\fancyhead[R]{\small Unsteady airfoil aerodynamics}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\newcommand{\todo}[1]{\textbf{[To complete: #1]}}
+\renewcommand{\labelitemi}{$\bullet$}
+% BEGIN AUTHOR-ONLY
+\newcommand{\gap}[1]{\par\smallskip\noindent\fcolorbox{red!60!black}{red!5}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\small\textbf{\textcolor{red!60!black}{Missing:}} #1}}\par\smallskip}
+% END AUTHOR-ONLY
+\newcommand{\fig}[4]{\begin{figure}[htbp]\centering\includegraphics[width=#2\linewidth]{#1}\caption{#3}\label{#4}\end{figure}}
+\begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\centering
+\vspace*{18mm}
+{\large THESIS PREDEFENSE REPORT\par}
+% BEGIN AUTHOR-ONLY
+\vspace{3mm}{\small\textcolor{red!60!black}{Author's working copy: red boxes mark missing evidence}\par}
+% END AUTHOR-ONLY
+\vspace{17mm}
+{\LARGE\bfseries Modeling and Control of Unsteady Flows over Rapidly Maneuvering Airfoils at Ultra-Low Reynolds Number\par}
+\vspace{20mm}
+{\large Imdadullah Raji\par}
+Student ID: 2110099\par
+\vspace{7mm}
+{\large Abdullah al Mamun\par}
+Student ID: 2110062\par
+\vspace{13mm}
+Supervisor: Dr Md Ali\par
+\vfill
+\includegraphics[height=32mm]{buet_logo.jpg}\par
+\vspace{6mm}
+Department of Mechanical Engineering\par
+Bangladesh University of Engineering and Technology\par
+Dhaka, Bangladesh\par
+\vspace{8mm}
+30 September 2026\par
+\end{titlepage}
+\hypersetup{pageanchor=true}
+\input{writeup.tex}
+\clearpage
+\renewcommand{\refname}{List of References}
+\input{references.tex}
+\end{document}

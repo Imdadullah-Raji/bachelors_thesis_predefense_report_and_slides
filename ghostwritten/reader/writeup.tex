@@ -1,0 +1,150 @@
+\section{Background and Literature Review}
+\subsection{Low Reynolds number airfoil aerodynamics}
+Traditionally, the study of aerodynamic forces has focused on large, fixed wings at high Reynolds numbers. However, recently there has been growing interest in the low Reynolds number regime, $10^2<Re<10^4$, due to the development of micro aerial vehicles (MAVs), which naturally operate at low Reynolds numbers.
+
+High Reynolds number flows over typical airfoils, before substantial separation, produce thin boundary layers and narrow wakes. Historically, their outer flow has been successfully described using potential-flow theory \cite{katz}. Much flow modeling and control has addressed the physics observed at these Reynolds numbers: laminar separation, turbulent reattachment, and stall at a critical angle. By contrast, low Reynolds number flows are characterized by relatively thick boundary layers and large wakes. Large coherent vortices can be released from the leading edge and significantly affect lift and drag. As a consequence, the flow physics can be markedly different.
+
+\fig{figs/flightRegimeMap_light.png}{0.85}{Maximum lift coefficients across flight regimes. Reproduced from Eldredge and Jones \cite{eldredge2019}.}{fig:flightregime}
+
+Figure~\ref{fig:flightregime}, reproduced from Eldredge and Jones \cite{eldredge2019}, compares steady and unsteady lift generation. On the left, steady-flow maximum lift coefficients of insect wings are generally lower than those associated with hovering insects and revolving wings. This suggests that unsteady fluid-dynamical effects are consequential in lift generation.
+
+Research into low Reynolds number laminar flows over airfoils has increased over the last two decades. Our review follows three separate threads: dynamical descriptions of stationary airfoils from experimental and numerical studies, leading-edge vortex (LEV) dynamics of maneuvering airfoils, and reduced-order modeling of these dynamics.
+
+\subsection{Dynamical regimes of stationary airfoil wakes}
+\subsubsection{Experiments and two-dimensional numerical studies}
+At low Reynolds numbers, the boundary layer readily separates and forms free shear layers, which can roll up through Kelvin--Helmholtz instability. Alam et al.\ (2010) \cite{alam} studied NACA0012 wake characteristics, including at $Re=5300$, using laser-induced fluorescence and other flow measurements. Their investigation connected changes in separation and wake structure to incidence. Kurtulu\c{s} (2016) \cite{kurtulus} carried out two-dimensional numerical investigations of the NACA0012 at $Re=1000$ using the finite-volume code ANSYS Fluent. She identified five modes based on wake vortex patterns:
+\begin{itemize}
+\item \textbf{Mode 1:} continuous vortex-sheet mode, at low incidence.
+\item \textbf{Mode 2:} alternating vortex-shedding mode.
+\item \textbf{Mode 3:} alternating vortex-pair shedding mode.
+\item \textbf{Mode 4:} alternating single-vortex and vortex-pair shedding mode.
+\item \textbf{Mode 5:} bluff-body vortex-shedding mode, at high incidence.
+\end{itemize}
+
+Durante et al.\ (2020) \cite{durante} studied this further using a vortex particle method and analyzed the results in a dynamical systems framework, using phase portraits constructed from time-varying aerodynamic loads \cite{strogatz}. They found period tripling and transitions to chaos. However, at higher angles of attack, three-dimensional spanwise instabilities can develop, raising questions about the physical realizability of the two-dimensional solutions. Recent studies address this question.
+
+\subsubsection{Three-dimensional numerical simulations and experiments}
+Gupta et al.\ (2023) \cite{gupta} investigated whether flow patterns suggested by two-dimensional simulations are realizable in three dimensions. They used water-channel experiments, numerical simulations, and Floquet stability analysis, including a spectral-element method.
+
+\fig{figs/guptaSpanwiseInstability.png}{0.95}{Three-dimensional spanwise instability and corresponding wake sections. Reproduced from Gupta et al.\ \cite{gupta}.}{fig:gupta}
+
+A principal finding is that the onset of three-dimensional instability lies within the von K\'arm\'an vortex-shedding regime, before the two-dimensional transition to vortex-pair shedding through period doubling. For example, at $Re=500$, three-dimensional instability begins near $\alpha_{3D}=18.5^\circ$, whereas the present two-dimensional period doubling is bracketed between $24^\circ$ and $25^\circ$.
+ Their results suggest that the critical angle for three-dimensional instability varies approximately as $\alpha_{3D}\sim Re^{-0.5}$.
+
+The spanwise instabilities are classified using concepts developed for circular-cylinder wakes, including the Floquet analysis of Barkley and Henderson \cite{barkley} and the review by Williamson \cite{williamson}. These instabilities cause vortex tubes to develop waviness along their centerlines, with different wavelengths having different growth characteristics. Mode A has a spanwise wavelength of roughly three to four cylinder diameters; mode B has a shorter wavelength. Both are synchronous with the base shedding period $T$. Mode C, by contrast, is subharmonic and repeats after $2T$. Interestingly, mode C appears first for the airfoil cases studied by Gupta et al., whereas mode A appears first for the circular cylinder.
+
+\subsection{Rapid motions and leading-edge vortices}
+Rapid pitching creates an additional timescale set by the imposed motion. A leading-edge vortex can grow while remaining near the suction surface, modifying pressure and increasing the instantaneous load. Its convection and shedding subsequently change the force even if the airfoil has stopped rotating. Eldredge and Jones \cite{eldredge2019} review these mechanisms and their modeling implications. Eldredge and Wang \cite{eldredge2010} demonstrate strong pitch-rate and pivot-location effects for a rapidly pitching plate. These results motivate separating motion-dependent inertial forces from the response associated with circulation and the evolving wake.
+
+\subsection{Reduced-order modeling}
+Reduced-order models that predict aerodynamic response in real time are essential for active flow control. Such models can be developed from first principles or through empirical, data-driven approaches. Proper orthogonal decomposition (POD) provides an energy-ranked spatial representation, while dynamic mode decomposition associates coherent behavior with characteristic temporal evolution \cite{bruntonbook,mlfluids}. A forced dynamical model must add the dependence on the input to either representation.
+
+Brunton, Rowley, and Williams \cite{brunton2013} developed reduced-order unsteady aerodynamic models at low Reynolds numbers, illustrating how state-space descriptions can incorporate departures from classical attached-flow behavior. Dawson and Brunton \cite{dawson} used sparse identification of nonlinear dynamics to improve approximations to the Wagner response. Together, these studies motivate a compact model that combines known motion-dependent terms with learned wake dynamics. Whether such a model remains accurate through vortex shedding and changing incidence is the central issue addressed by this thesis.
+
+\section{Objectives}
+The review reveals rich dynamics in low Reynolds number airfoil flows and a growing role for data-driven techniques. The aim of this study is to develop a reduced-order model of a pitching airfoil that remains as faithful as possible to the physics while retaining as few degrees of freedom as possible, thereby isolating dominant flow physics and enabling real-time control.
+
+The specific objectives are to:
+\begin{enumerate}
+\item Characterize pitching-airfoil flow physics, particularly the formation and evolution of dynamically important structures such as leading-edge vortices.
+\item Identify a low-dimensional representation of high-fidelity numerical data using data-driven dimensionality reduction.
+\item Develop an input--output model of aerodynamic response that remains attentive to dominant flow structures.
+\item Assess the suitability and robustness of the resulting model for flow control.
+\end{enumerate}
+
+\input{methodology_section.tex}
+
+\section{Possible Outcomes of the Thesis}
+The expected outcomes are a documented numerical dataset, a dynamical classification of stationary and pitching responses, and a compact predictive model suitable for subsequent controller assessment. The model should clarify which features of vortex formation and wake memory must be retained to reproduce aerodynamic loading. A successful result would demonstrate useful prediction on motions excluded from training, together with a clear operating range and computational cost.
+
+The work completed to date covers the numerical workflow and the flow-response analysis. Reduced-order model identification, validation on independent maneuvers, and closed-loop control form the next stage.
+
+\section{Results and Discussion}
+\subsection{Stationary-airfoil regimes and forces}
+The $Re=500$ dataset shows steady flow below the shedding threshold and periodic loading above it. A linear growth-rate analysis places onset at $\alpha_c\approx11.46^\circ\pm0.1^\circ$, where a complex pair of eigenvalues crosses into the unstable half-plane: a Hopf bifurcation. Representative vorticity snapshots distinguish a steady wake, a period-one wake, and a period-two wake (Figure~\ref{fig:regimes}).
+
+\fig{assets/static_vorticity.png}{0.78}{Representative stationary-airfoil vorticity fields: $\alpha=10^\circ$, $20^\circ$, and $28^\circ$, showing steady, period-one, and period-two regimes respectively.}{fig:regimes}
+
+Figure~\ref{fig:forces} compares converged steady solutions with post-transient unsteady statistics. Mean lift generally increases after shedding begins, while the oscillation envelope widens. The mean lift-to-drag ratio peaks near $14^\circ$, well below the angle of maximum lift. Mean lift decreases between $27^\circ$ and $29^\circ$, then rises sharply at $30^\circ$. Thus, increasing incidence brings competing changes in mean loading, drag, and fluctuation amplitude.
+
+\fig{static_case/figures/01_force_coefficients.pdf}{1}{Stationary-airfoil force statistics. Dotted curves show post-shedding means; solid upper and lower lift curves show extrema. The steady-solver branch is plotted separately. Extrema mark the range of the physical oscillation.}{fig:forces}
+
+\subsection{Frequency content and period doubling}
+The carrier Strouhal number, $St_c=f_cc/U_\infty$, decreases from approximately 0.618 at $12^\circ$ to 0.320 at $30^\circ$, nearly halving across the sweep. The first resolved period doubling is bracketed between $24^\circ$ and $25^\circ$: a subharmonic at $f_c/2$ appears, and the full orbit requires two carrier periods (Figure~\ref{fig:spectrum}).
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=.75\linewidth]{static_case/figures/02_strouhal.pdf}\\[4mm]
+\includegraphics[width=\linewidth]{static_case/figures/03_fourier_period_doubling.pdf}
+\caption{Frequency branches and lift spectra across period doubling. Carrier frequency and orbit fundamental are tracked as separate branches.}\label{fig:spectrum}
+\end{figure}
+
+At $26^\circ$, the subharmonic-to-carrier amplitude ratio is about 0.949; the subharmonic becomes larger at subsequent sampled angles. At $29^\circ$ this ratio is approximately 1.554, whereas at $30^\circ$ it falls to 0.632. Both cases remain period-two. Tracking the carrier and the subharmonic as separate branches keeps this exchange of dominance distinct from a change in frequency. The records show no further period doubling up to $30^\circ$.
+
+\subsection{Surface loading and the change near thirty degrees}
+The pressure distributions provide a spatial explanation for changes in integrated loading. At larger incidence, extended suction regions accompany separated flow, while signed wall shear helps locate mean reversed-flow regions. These averages connect the force measurements to surface physics.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{static_case/figures/04_mean_pressure.pdf}\\[4mm]
+\includegraphics[width=\linewidth]{static_case/figures/05_mean_wall_shear.pdf}
+\caption{Mean pressure and signed tangential wall shear at $11^\circ$, $20^\circ$, and $26^\circ$. Shear is normalized by $\rho U_\infty^2$; positive traction follows the surface toward increasing chordwise coordinate.}\label{fig:surface}
+\end{figure}
+
+The steady-solver and time-accurate branches answer different questions. A steady solution seeks a fixed point of the governing equations, whereas the time average of a limit cycle includes the influence of its fluctuations. Their difference is the mean-flow distortion produced by the oscillation, and it persists for any averaging interval. Above $20^\circ$ the steady iteration itself oscillates; those unconverged solutions are excluded from the steady branch.
+
+The force ratios also require a stated averaging convention. The stationary plots average the instantaneous lift-to-drag ratio over the record, which in general differs from the ratio of mean lift to mean drag. Minimum-to-maximum bars give the oscillation range, and standard-deviation bars give its dispersion. These conventions matter when comparing transient enhancement with a fluctuating stationary reference.
+
+Between $29^\circ$ and $30^\circ$, mean lift increases from 0.8897 to 1.0129 and mean drag from 0.6419 to 0.7357. Integrating the pressure difference gives changes of approximately 0.125 in lift coefficient and 0.091 in drag coefficient, close to the total-force changes of 0.123 and 0.094. The comparison excludes the trailing-edge closure and viscous contribution. Broadly increased upper-surface suction and lower-surface pressure therefore account for most of the observed jump (Figure~\ref{fig:jump}).
+
+\fig{static_case/figures/07_29_vs_30.pdf}{0.95}{Comparison of $29^\circ$ and $30^\circ$: force recurrence, Fourier content, and mean pressure redistribution. The force jump accompanies a redistribution between existing spectral components.}{fig:jump}
+
+\subsection{Pitching benchmark and transient response}
+The flat-plate campaign follows the $Re=1000$ leading-edge-pivot configuration of Eldredge and Wang \cite{eldredge2010}. Figure~\ref{fig:benchmark} places the computed lift and drag peaks on their published force histories for eight pitch rates, $K=0.1$--$1$. Peak lift rises steeply with pitch rate, from 2.98 at $K=0.1$ through 5.83 at $K=0.4$ to 15.05 at $K=1$, and lies 2.7--7.8\% below the published peak at every rate. Peak drag agrees to within 3.8\%, ranging from 3.8\% below to 0.5\% above. Both peaks occur at the published instants: in rescaled time $K(tU_\infty/c-1)$, the lift peak falls within 0.04 and the drag peak within 0.007 of the reference.
+
+\fig{figs/benchmark_overlay.pdf}{1}{Flat-plate benchmark at $Re=1000$: computed lift and drag peaks (markers) on the force histories of Eldredge and Wang \cite{eldredge2010} (lines) for eight pitch rates. In (c), rescaled time aligns the pitch-up intervals across rates.}{fig:benchmark}
+
+For the NACA0012 maneuver at $Re=500$, $K=0.4$, and a quarter-chord pivot, peak lift reaches approximately 3.46 at an instantaneous incidence of $20.8^\circ$. The corresponding stationary mean is approximately 0.81, giving a transient-to-static ratio near 4.26. This ratio compares the maneuvering and stationary flows at the same instantaneous angle. During the hold, lift settles near 1.005, against a stationary mean near 1.014.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=.66\linewidth]{assets/pitch_vs_static.png}\\[3mm]
+\includegraphics[width=.66\linewidth]{assets/pitch_vorticity.png}
+\caption{NACA0012 pitch-up response compared with stationary loading, and a vorticity snapshot near the end of pitching. The stationary error bars denote one standard deviation; Figure~\ref{fig:forces} shows extrema.}\label{fig:pitch}
+\end{figure}
+
+A classical noncirculatory estimate provides a useful diagnostic decomposition. In dimensionless time, the quarter-chord expression used here is
+\begin{equation}
+C_{L,\mathrm{nc}}=\frac{\pi}{2}\left(\dot\alpha+\frac14\ddot\alpha\right),
+\qquad C_{L,\mathrm{res}}=C_L-C_{L,\mathrm{nc}}.
+\end{equation}
+The residual retains the slower force evolution after the imposed acceleration changes. At large incidence and with separation, this subtraction serves as an approximate modeling convention. The observed overshoot and relaxation motivate adding a dynamic wake state to the instantaneous angle and rate in the proposed model.
+
+\fig{assets/pitch_decomposition_trimmed.png}{0.74}{Total lift, classical noncirculatory estimate, and residual during the $Re=500$ maneuver. The curve labeled circulatory is the residual $C_{L,\mathrm{res}}$, used as a diagnostic remainder.}{fig:decomp}
+
+\FloatBarrier
+\section{Health, Safety, Legal, Social, and Cultural Issues and Obligations}
+This phase is computational and involves no human participants or physical flight tests. Immediate responsibilities concern responsible use of shared computing facilities, secure storage, and reproducible reporting. Published figures and methods must be attributed, and any later public redistribution should follow the relevant permissions. Simulation outputs will be presented as computed predictions until verified by experiment.
+
+Potential applications include small aerial platforms for inspection and environmental monitoring. Their eventual deployment could raise safety, privacy, noise, and community-acceptance concerns. These considerations belong in later system design and testing. Clear communication of uncertainty and accessible presentation of results support responsible research practice.
+
+\section{Environmental Impact and Sustainability}
+The direct environmental cost of this work arises mainly from computation and data storage. Reusing verified meshes, avoiding redundant simulations, and recording only scientifically necessary fields can reduce resource consumption. A successful reduced-order model could lower the cost of repeated prediction and controller evaluation. Future reporting will compare model accuracy and computational expense together. Vehicle-level emissions and endurance lie outside the scope of this thesis.
+
+\section{Mapping of the Complex Engineering Problem}
+The problem requires fluid mechanics, numerical analysis, nonlinear dynamics, and system identification. Its principal complexity lies in reconciling physical fidelity with a model small enough for control. The following mapping describes the research attributes.
+
+\begin{center}\small
+\begin{tabularx}{\linewidth}{@{}p{.27\linewidth}X@{}}
+\toprule
+Attribute & Application to this thesis \\
+\midrule
+Depth of knowledge & Separated-flow dynamics and moving-mesh conservation must be interpreted together. \\
+Conflicting requirements & Accuracy, stability, computational cost, and model simplicity compete. \\
+Depth of analysis & Spectra, surface loading, recurrence, and vortex evolution must support consistent conclusions. \\
+Unfamiliar behavior & Force overshoot and changing wake regimes challenge static aerodynamic assumptions. \\
+Interdependence & Mesh quality, motion prescription, sampling, identification, and validation affect one another. \\
+Standards and stakeholders & Reproducible evidence is needed for supervisors, reviewers, and future model users. \\
+\bottomrule
+\end{tabularx}\end{center}
+
+The remaining work will test whether the proposed reduction preserves these coupled dynamics under unfamiliar inputs, and identify conditions where additional states or higher-fidelity simulations are required.
+
+

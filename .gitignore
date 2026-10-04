@@ -1,0 +1,25 @@
+# Code/asset split (see archive/README.md).
+# Git tracks only "imperatives": sources, scripts, markdown instructions.
+# Everything git ignores here is an asset and goes to Google Drive
+# via archive/push_assets.sh -- except the junk listed in archive/never_upload.txt.
+
+# 1. Ignore everything ...
+*
+# 2. ... but descend into directories ...
+!*/
+# 3. ... and track code by extension.
+!.gitignore
+!*.md
+!*.py
+!*.sh
+!*.tex
+!*.bib
+!*.sty
+!*.cls
+!*.yaml
+!*.yml
+!archive/*.txt
+
+# 4. Build outputs are regenerable; treat them as assets even if they look like code.
+build/
+ghostwritten/build/

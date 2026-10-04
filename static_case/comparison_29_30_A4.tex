@@ -1,0 +1,19 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=15mm]{geometry}
+\usepackage{graphicx,amsmath,caption}
+\captionsetup{font=small,labelfont=bf}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\begin{document}
+\begin{center}\large The $29^\circ$ to $30^\circ$ change at $Re=500$\end{center}
+\begin{center}
+\includegraphics[width=180mm]{figures/07_29_vs_30.pdf}
+\captionof{figure}{The lift spectra retain a period-two harmonic ladder at both angles, though the stronger peak switches from the orbit fundamental at $29^\circ$ to the shedding carrier at $30^\circ$. Mean upper-surface suction strengthens over much of the chord; lower-surface pressure also increases. The lower-left panel shows the signed difference $\overline C_p(30^\circ)-\overline C_p(29^\circ)$. The waveforms are aligned by their largest lift peaks and averaged over the last four complete orbits.}
+\end{center}
+
+The converged mean lift rises from 0.8897 to 1.0129 ($\Delta C_L=0.1231$); drag rises from 0.6419 to 0.7357 ($\Delta C_D=0.0938$). Integrating the mean sampled pressures over the upper and lower airfoil surfaces gives $\Delta C_{L,p}\simeq0.1251$ and $\Delta C_{D,p}\simeq0.0908$. The blunt trailing-edge face and viscous forces are omitted from that reconstruction, so these are approximate component changes, not exact full-force closures.
+
+The shedding-carrier frequency falls from 0.3600 to 0.3197; the orbit frequency falls from 0.1800 to 0.1599. Both orbits remain period two. The amplitude ratio $A(f_c/2)/A(f_c)$ changes from 1.55 to 0.63. These observations show a different pressure loading and harmonic balance; they do not by themselves establish an additional bifurcation.
+
+\smallskip\noindent Print at actual size (100\%). The vector plot is also available individually as \texttt{figures/07\_29\_vs\_30.pdf}; numerical values are recorded in \texttt{data/comparison\_29\_30.json}.
+\end{document}
