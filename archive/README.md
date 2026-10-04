@@ -29,6 +29,17 @@ archive/pull_assets.sh
 ./build.sh                       # needs pdflatex; figure scripts need environment.yaml
 ```
 
+## Images shown in markdown
+
+Images that a tracked `.md` file displays (`![](...)` or `<img src>`) are the one exception: they live in git, at full resolution, so they render on GitHub.
+After adding an image to a markdown file, run:
+
+```bash
+archive/track_md_images.py       # rewrites the managed block at the end of .gitignore; reports broken paths
+```
+
+Image paths in markdown are relative to the `.md` file (e.g. `../figs/x.png` from `markdowns/`).
+
 ## Changing the split
 
 To start tracking a new code type, add a `!*.ext` line to `.gitignore`.

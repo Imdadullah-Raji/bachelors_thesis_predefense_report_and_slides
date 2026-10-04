@@ -4,7 +4,7 @@ Two kinds of numerical investigations were undertaken: steady airfoil at differe
 ### Mesh 
 Both for the stationary and pitching airfoils the computational domain is a disk of radius $30c$. The mesh is discretized using transfinite interpolation, with all quadrilateral elements throughout.  An overview and close up is provided in Fig < fig num>.  
 
-![mesh_fig](figs/mesh_figure.png)
+![mesh_fig](../figs/mesh_figure.png)
 
 To keep the boundary layer sufficiently resolved the first cell height is taken as a function of the Reynolds number, $h1 = 0.05/\sqrt{\text{Re}}$, which is approximately the 1/100th of the Blasius boundary layer thickness for a flat plate. 
 

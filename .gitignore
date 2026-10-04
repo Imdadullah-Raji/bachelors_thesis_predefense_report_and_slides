@@ -19,9 +19,28 @@
 !*.yaml
 !*.yml
 !archive/*.txt
-# Small preview images shown in README.md (downscaled copies of assets).
-!docs/readme/*
 
 # 4. Build outputs are regenerable; treat them as assets even if they look like code.
 build/
 writeup/build/
+
+# BEGIN markdown images (managed by archive/track_md_images.py)
+!/docs/readme/lev.gif
+!/docs/readme/pitch_vs_static.png
+!/docs/readme/pod.png
+!/docs/readme/regimes.png
+!/docs/readme/slide_example.png
+!/figs/flightRegimeMap.png
+!/figs/guptaSpanwiseInstability.png
+!/figs/mesh_bl.png
+!/figs/mesh_figure.png
+!/figs/mesh_le.png
+!/figs/mesh_near.png
+!/figs/mesh_overview.png
+!/figs/mesh_te.png
+!/figs/mesh_te_base.png
+!/figs/pitch_plot_tobedigitized.png
+!/figs/williamsonModeAB.png
+!/figs/williamsonModeC.png
+!/slides_mds/OpenFOAM_logo.svg
+# END markdown images
